@@ -1,0 +1,39 @@
+services:
+  # Main Database: PostgreSQL 18
+  # Choosing Alpine for a smaller footprint and reduced attack surface
+  database:
+    image: postgres:18-alpine
+    container_name: enterprise_db_uk
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-admin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-admin123}
+      POSTGRES_DB: ${DB_NAME:-enterprise_dashboard}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis: Essential for caching, session management, and rate limiting
+  cache:
+    image: redis:7-alpine
+    container_name: enterprise_cache_uk
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # Adminer: Lightweight database management tool
+  # Provides an immediate UI for database inspection during development
+  adminer:
+    image: adminer
+    container_name: enterprise_adminer_uk
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+volumes:
+  # Persisting data locally to ensure development continuity
+  postgres_data:
