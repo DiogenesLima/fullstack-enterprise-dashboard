@@ -1,0 +1,23 @@
+{
+  "name": "@enterprise/database",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "prisma generate && tsc",
+    "db:generate": "prisma generate",
+    "db:push": "dotenv -e ../../.env -- prisma db push",
+    "db:seed": "dotenv -e ../../.env -- prisma db seed"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.7.0",
+    "@prisma/adapter-pg": "^7.7.0",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.20.0",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.7.0",
+    "typescript": "^5.0.0"
+  }
+}
