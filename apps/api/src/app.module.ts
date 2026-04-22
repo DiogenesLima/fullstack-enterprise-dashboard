@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { Global, Module } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './prisma/prisma.service';
-import { UsersController } from './modules/users/users.controller';
+import { UsersModule } from './modules/users/users.module';
 
+@Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -12,8 +12,9 @@ import { UsersController } from './modules/users/users.controller';
       envFilePath: '../../.env',
       expandVariables: true,
     }),
+    UsersModule,
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, PrismaService],
+  providers: [PrismaService],
+  exports: [PrismaService],
 })
 export class AppModule {}

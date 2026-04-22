@@ -1,25 +1,27 @@
-import { Controller, Get, Version, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { Controller, Get, Post, Body, Version } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
 import type { UserResponse } from '@enterprise/api-contracts';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Version('1')
-  @Get('profile')
-  async getProfile(): Promise<UserResponse> {
-    const user = await this.prisma.user.findFirst();
+  @Post()
+  async create(@Body() createUserDto: CreateUserDto) {
+    const user = await this.usersService.create(createUserDto);
+    return { success: true, message: 'User created', id: user.id };
+  }
 
-    if (!user) {
-      throw new NotFoundException('No user found in database. Did you seed it?');
-    }
-
-    return {
-      id: user.id,
-      email: user.email,
-      role: user.role as 'admin' | 'user',
-      created: user.created.toISOString(),
-    };
+  @Version('1')
+  @Get()
+  async findAll(): Promise<UserResponse[]> {
+    const users = await this.usersService.findAll();
+    return users.map((u) => ({
+      ...u,
+      role: u.role as 'admin' | 'user',
+      created: u.created.toISOString(),
+    }));
   }
 }
