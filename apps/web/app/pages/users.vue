@@ -48,7 +48,7 @@
             </td>
             <td class="px-6 py-4 text-sm">
               <AppButton variant="danger" class="text-red-600 hover:text-red-800" :loading="isDeleting === user.id"
-                @click="handleDelete(user.id)">
+                @click="openDeleteModal(user.id)">
                 Delete
               </AppButton>
             </td>
@@ -56,10 +56,37 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Deletion Confirmation Modal -->
+    <AppModal v-model="isModalOpen">
+      <template #icon>
+        <div
+          class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+          <span class="text-red-600 font-bold">!</span>
+        </div>
+      </template>
+    
+      <template #title>Confirm Deletion</template>
+    
+      <template #description>
+        Are you sure you want to delete this user? This action cannot be undone and will permanently remove the data from
+        our servers.
+      </template>
+    
+      <template #actions>
+        <AppButton variant="danger" :loading="isDeleting === userIdToDelete" @click="confirmDelete">
+          Delete User
+        </AppButton>
+        <AppButton variant="ghost" @click="isModalOpen = false">
+          Cancel
+        </AppButton>
+      </template>
+    </AppModal>
   </div>
 </template>
 
 <script setup lang="ts">
+  const { addToast } = useToast()
   const { fetchUsers, createUser } = useUsers()
   const { data: users, refresh } = await fetchUsers()
 
@@ -75,33 +102,45 @@
       await createUser(form)
       form.email = ''
       showForm.value = false
+      addToast('User created successfully!', 'success')
       await refresh()
     } catch (e: any) {
-      errorMessage.value = e.data?.message || 'Failed to create user'
+      addToast(e.data?.message || 'Error creating user', 'error')
     } finally {
       loading.value = false
     }
   }
 
   const isDeleting = ref < string | null > (null)
+  const isModalOpen = ref(false)
+  const userIdToDelete = ref < string | null > (null)
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this user?')) return
+  const openDeleteModal = (id: string) => {
+    userIdToDelete.value = id
+    isModalOpen.value = true
+  }
 
+  const confirmDelete  = async () => {
+    if (!userIdToDelete.value) return
+
+    const id = userIdToDelete.value
     isDeleting.value = id
 
     try {
       const { deleteUser } = useUsers()
       await deleteUser(id)
+      addToast('User deleted forever.', 'success')
 
       await refresh()
+      isModalOpen.value = false
 
     } catch (e: any) {
       const message = e.data?.message || 'Failed to delete user'
-      alert(message)
+      addToast(message, 'error')
       console.error('Delete error:', e)
     } finally {
       isDeleting.value = null
+      userIdToDelete.value = null
     }
   }
 </script>
