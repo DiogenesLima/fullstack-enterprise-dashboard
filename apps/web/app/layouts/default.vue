@@ -23,8 +23,15 @@
         </NuxtLink>
       </nav>
 
+      <!-- Logout Section -->
       <div class="p-4 border-t border-slate-800">
-        <div class="flex items-center gap-3 px-4 py-3 text-xs uppercase tracking-widest font-semibold text-slate-500">
+        <button @click="handleLogout"
+          class="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors">
+          <Icon name="heroicons:arrow-left-on-rectangle" class="w-5 h-5" />
+          <span class="text-sm font-medium">Sign Out</span>
+        </button>
+      
+        <div class="mt-4 px-4 py-3 text-[10px] uppercase tracking-widest font-semibold text-slate-500">
           UK Market v1.0
         </div>
       </div>
@@ -47,3 +54,13 @@
     </main>
   </div>
 </template>
+
+<script setup lang="ts">
+  const { logout } = useAuth()
+  const { addToast } = useToast()
+
+  const handleLogout = () => {
+    logout()
+    addToast('Signed out successfully. See you soon!', 'info')
+  }
+</script>

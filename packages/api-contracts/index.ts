@@ -16,6 +16,7 @@ export interface ApiError {
 // Shared interface for creating a new user
 export interface CreateUserDto {
   email: string;
+  password: string;
   role?: 'admin' | 'user';
 }
 
@@ -24,4 +25,19 @@ export interface ActionResponse {
   success: boolean;
   message: string;
   id?: string;
+}
+
+// Shared interface for authentication request
+export interface LoginDto {
+  email: string;
+  password: string;
+}
+
+// Shared interface for success auth responses
+export interface AuthResponse {
+  access_token: string;
+  user: {
+    email: string;
+    role: string;
+  };
 }
