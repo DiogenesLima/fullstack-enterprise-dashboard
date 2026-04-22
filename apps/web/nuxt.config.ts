@@ -5,7 +5,14 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxt/icon'
+  ],
+
+  icon: {
+    serverBundle: 'local'
+  },
 
   css: ['~/assets/css/main.css'],
 
