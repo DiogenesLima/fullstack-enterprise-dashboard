@@ -24,6 +24,10 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    return this.prisma.user.findFirst({ where: { id: id } });
+    return this.prisma.user.findFirst({ where: { id } });
+  }
+
+  async remove(id: string) {
+    return this.prisma.user.delete({ where: { id } });
   }
 }

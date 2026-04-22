@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Version } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, Version } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import type { UserResponse } from '@enterprise/api-contracts';
@@ -23,5 +23,12 @@ export class UsersController {
       role: u.role as 'admin' | 'user',
       created: u.created.toISOString(),
     }));
+  }
+
+  @Version('1')
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    await this.usersService.remove(id);
+    return { success: true, message: 'User deleted' };
   }
 }
