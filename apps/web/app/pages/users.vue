@@ -6,6 +6,14 @@
         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
         {{ showForm ? 'Close' : 'Add New User' }}
       </button>
+
+      <!-- Search Bar -->
+      <div class="relative w-64">
+        <Icon :name="pending ? 'heroicons:arrow-path' : 'heroicons:magnifying-glass'"
+          :class="['absolute left-3 top-2.5 w-5 h-5', pending ? 'text-indigo-600 animate-spin' : 'text-slate-400']" />
+        <input v-model="searchTerm" type="text" placeholder="Search by email..."
+          class="pl-10 pr-4 py-2 w-full rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" />
+      </div>
     </header>
 
     <!-- Creation Form -->
@@ -43,7 +51,7 @@
 
     <!-- User List Table -->
     <div class="bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden">
-      <table class="w-full text-left">
+      <table :class="{ 'opacity-50': pending }" class="w-full text-left">
         <thead class="bg-gray-50 border-b border-gray-200">
           <tr>
             <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
@@ -105,6 +113,8 @@
 </template>
 
 <script setup lang="ts">
+  const searchTerm = ref('')
+
   const roleStyles = {
     admin: 'bg-indigo-100 text-indigo-700 border-indigo-200',
     user: 'bg-slate-100 text-slate-700 border-slate-200'
@@ -112,7 +122,16 @@
   
   const { addToast } = useToast()
   const { fetchUsers, createUser } = useUsers()
-  const { data: users, refresh } = await fetchUsers()
+  const { data: users, refresh, pending } = await fetchUsers(() => searchTerm.value)
+
+  let debounceTimer: ReturnType<typeof setTimeout> | null = null
+
+  watch(searchTerm, (newValue) => {
+    if (debounceTimer) clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(async () => {
+      const result = await refresh()
+    }, 300) // 300ms delay for debouncing
+  })
 
   const showForm = ref(false)
   const loading = ref(false)

@@ -4,10 +4,18 @@ export const useUsers = () => {
   const config = useRuntimeConfig()
   const apiBase = config.public.apiBase
 
-  // Listar usuários
-  const fetchUsers = () => useFetch<UserResponse[]>('/users', { baseURL: apiBase })
+  // List users
+  const fetchUsers = (search?: () => string) => {
+    return useFetch<UserResponse[]>('/users', {
+      baseURL: config.public.apiBase,
+      query: computed(() => ({
+        search: search ? search() : undefined
+      })),
+      watch: false
+    })
+  }
 
-  // Criar usuário
+  // Create user
   const createUser = async (userData: CreateUserDto) => {
     return await $fetch<ActionResponse>('/users', {
       method: 'POST',
@@ -16,6 +24,7 @@ export const useUsers = () => {
     })
   }
 
+  // Delete user
   const deleteUser = async (id: string) => {
     return await $fetch(`/users/${id}`, {
       method: 'DELETE',

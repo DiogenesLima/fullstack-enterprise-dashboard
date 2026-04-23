@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Body, Param, Version, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, Version, UseGuards, Query } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -28,8 +28,8 @@ export class UsersController {
   @ApiOperation({ summary: 'List all users' })
   @ApiResponse({ status: 200, description: 'Users retrieved successfully.' })
   @Get()
-  async findAll(): Promise<UserResponse[]> {
-    const users = await this.usersService.findAll();
+  async findAll(@Query('search') search?: string): Promise<UserResponse[]> {
+    const users = await this.usersService.findAll(search);
     return users.map((user) => ({
       id: user.id,
       email: user.email,

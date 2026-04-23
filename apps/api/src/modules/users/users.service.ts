@@ -26,8 +26,14 @@ export class UsersService {
     });
   }
 
-  async findAll() {
+  async findAll(search?: string) {
     return this.prisma.user.findMany({
+      where: search ? {
+            email: {
+              contains: search,
+              mode: 'insensitive',
+            },
+      } : {},
       select: {
         id: true,
         email: true,
