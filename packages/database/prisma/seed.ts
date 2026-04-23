@@ -3,6 +3,7 @@ import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client';
 import * as bcrypt from 'bcrypt';
+import { faker } from '@faker-js/faker';
 
 const connectionString = `${process.env.DATABASE_URL}`;
 const pool = new Pool({ connectionString });
@@ -10,7 +11,7 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  console.log('🇬🇧 Starting database seeding...');
+  console.log('🇬🇧 Starting professional seeding with Faker.js...');
 
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash('admin123', saltRounds);
@@ -27,9 +28,32 @@ async function main() {
     },
   });
 
+  console.log('Generating 50 random users...');
+
+  const users = [];
+  for (let i = 0; i < 50; i++) {
+    const rawPassword = faker.internet.password({ length: 12 });
+    const hashedPassword = await bcrypt.hash(rawPassword, saltRounds);
+
+    users.push({
+      email: faker.internet.email().toLowerCase(),
+      password: hashedPassword,
+      role: faker.helpers.arrayElement(['admin', 'user', 'user', 'user', 'user']),
+      created: faker.date.past({ years: 1 }),
+    });
+  }
+
+  await prisma.user.createMany({
+    data: users,
+    skipDuplicates: true,
+  });
+
+  const total = await prisma.user.count();
+
   console.log('✅ Seed completed:');
   console.log(`   User: ${admin.email}`);
   console.log(`   Default Password: admin123 (stored as hash)`);
+  console.log(`   Total Users: ${total}`);
 }
 
 main()
