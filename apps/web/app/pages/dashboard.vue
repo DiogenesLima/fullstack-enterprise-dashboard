@@ -43,6 +43,16 @@
         </h3>
       </div>
     </div>
+
+    <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <DashboardChart v-if="data" :admins="data.totalAdmins" :users="data.totalUsers - data.totalAdmins" />
+    
+      <div class="bg-indigo-600 rounded-xl p-8 text-white flex flex-col justify-center">
+        <h2 class="text-2xl font-bold mb-2">UK Market Ready</h2>
+        <p class="opacity-80">This dashboard demonstrates real-time data aggregation from a PostgreSQL database using Prisma
+          7 and NestJS.</p>
+      </div>
+    </div>
   </div>
 </template>
 
