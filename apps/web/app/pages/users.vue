@@ -61,25 +61,59 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50 transition">
-            <td class="px-6 py-4 text-sm text-gray-900">{{ user.email }}</td>
-            <td class="px-6 py-4">
-              <span
-                :class="['inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border', user.role === 'admin' ? roleStyles.admin : roleStyles.user]">
-                <span :class="['h-1.5 w-1.5 rounded-full', user.role === 'admin' ? 'bg-indigo-500' : 'bg-slate-400']"></span>
-                {{ user.role }}
-              </span>
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-500">
-              {{ new Date(user.created).toLocaleDateString('en-GB') }}
-            </td>
-            <td class="px-6 py-4 text-sm">
-              <AppButton variant="danger" class="text-red-600 hover:text-red-800" :loading="isDeleting === user.id"
-                @click="openDeleteModal(user.id)">
-                Delete
-              </AppButton>
+          <template v-if="users?.length > 0">
+            <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50 transition">
+              <td class="px-6 py-4 text-sm text-gray-900">{{ user.email }}</td>
+              <td class="px-6 py-4">
+                <span
+                  :class="['inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border', user.role === 'admin' ? roleStyles.admin : roleStyles.user]">
+                  <span :class="['h-1.5 w-1.5 rounded-full', user.role === 'admin' ? 'bg-indigo-500' : 'bg-slate-400']"></span>
+                  {{ user.role }}
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">
+                {{ new Date(user.created).toLocaleDateString('en-GB') }}
+              </td>
+              <td class="px-6 py-4 text-sm">
+                <AppButton variant="danger" class="text-red-600 hover:text-red-800" :loading="isDeleting === user.id"
+                  @click="openDeleteModal(user.id)">
+                  Delete
+                </AppButton>
+              </td>
+            </tr>
+          </template>
+          <tr v-else-if="!pending">
+            <td colspan="4" class="px-6 py-12 text-center">
+              <div class="flex flex-col items-center justify-center">
+                <div class="p-3 bg-slate-100 rounded-full mb-4">
+                  <Icon name="heroicons:magnifying-glass" class="w-8 h-8 text-slate-400" />
+                </div>
+                <h3 class="text-sm font-semibold text-slate-900">No users found</h3>
+                <p class="text-sm text-slate-500 mt-1">
+                  We couldn't find any users matching "{{ searchTerm }}".
+                </p>
+                <AppButton variant="ghost" class="mt-4 text-indigo-600" @click="searchTerm = ''">
+                  Clear search
+                </AppButton>
+              </div>
             </td>
           </tr>
+          <template v-else>
+            <tr v-for="i in 5" :key="i" class="animate-pulse">
+              <td class="px-6 py-4">
+                <div class="h-4 bg-slate-200 rounded w-3/4"></div>
+              </td>
+              <td class="px-6 py-4">
+                <div class="h-4 bg-slate-200 rounded w-1/2"></div>
+              </td>
+              <td class="px-6 py-4">
+                <div class="h-4 bg-slate-200 rounded w-2/3"></div>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <div class="h-4 bg-slate-200 rounded w-1/4 ml-auto"></div>
+              </td>
+            </tr>
+          </template>
         </tbody>
       </table>
     </div>
