@@ -1,4 +1,4 @@
-import type { UserPaginationResponse, CreateUserDto, ActionResponse } from '@enterprise/api-contracts'
+import type { UserPaginationResponse, UserResponse, CreateUserDto, ActionResponse } from '@enterprise/api-contracts'
 
 export const useUsers = () => {
   const config = useRuntimeConfig()
@@ -34,10 +34,16 @@ export const useUsers = () => {
     })
   }
 
+  const getMe = () => {
+    return useFetch<UserResponse>('/users/me', {
+      baseURL: apiBase
+    })
+  }
 
   return {
     fetchUsers,
     createUser,
-    deleteUser
+    deleteUser,
+    getMe
   }
 }
