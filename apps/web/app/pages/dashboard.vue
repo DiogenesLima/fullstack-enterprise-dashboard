@@ -47,11 +47,40 @@
     <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
       <DashboardChart v-if="data" :admins="data.totalAdmins" :users="data.totalUsers - data.totalAdmins" />
     
-      <div class="bg-indigo-600 rounded-xl p-8 text-white flex flex-col justify-center">
-        <h2 class="text-2xl font-bold mb-2">UK Market Ready</h2>
-        <p class="opacity-80">This dashboard demonstrates real-time data aggregation from a PostgreSQL database using Prisma
-          7 and NestJS.</p>
+      <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+          <h3 class="font-bold text-slate-800">Recent Signups</h3>
+          <NuxtLink to="/users" class="text-sm text-indigo-600 hover:underline">View all</NuxtLink>
+        </div>
+      
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <tbody class="divide-y divide-slate-100">
+              <tr v-for="user in recentUsers" :key="user.id" class="hover:bg-slate-50 transition">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-500">
+                      {{ user.email[0].toUpperCase() }}
+                    </div>
+                    <span class="text-sm font-medium text-slate-700">{{ user.email }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-xs text-slate-400">
+                  {{ new Date(user.created).toLocaleDateString('en-GB') }}
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <span
+                    class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border border-slate-200 text-slate-500">
+                    {{ user.role }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -64,4 +93,8 @@
     baseURL: config.public.apiBase,
     headers: { Authorization: `Bearer ${token.value}` }
   })
+
+  const { data: recentUsers } = await useFetch < UserResponse[] > ('/analytics/recent-users', {
+    baseURL: config.public.apiBase,
+  });
 </script>
