@@ -1,9 +1,9 @@
 services:
   # Main Database: PostgreSQL 18
   # Choosing Alpine for a smaller footprint and reduced attack surface
-  database:
+  postgres:
     image: postgres:18-alpine
-    container_name: enterprise_db_uk
+    container_name: enterprise_db
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER:-admin}
@@ -12,13 +12,44 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: enterprise-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_NAME}?schema=public
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "3001:3001"
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: enterprise-web
+    depends_on:
+      - api
+    environment:
+      NUXT_PUBLIC_API_BASE: ${NUXT_PUBLIC_API_BASE}
+    ports:
+      - "3000:3000"
 
   # Redis: Essential for caching, session management, and rate limiting
   cache:
     image: redis:7-alpine
-    container_name: enterprise_cache_uk
+    container_name: enterprise_cache
     restart: always
     ports:
       - "6379:6379"
@@ -27,12 +58,12 @@ services:
   # Provides an immediate UI for database inspection during development
   adminer:
     image: adminer
-    container_name: enterprise_adminer_uk
+    container_name: enterprise_adminer
     restart: always
     ports:
       - "8080:8080"
     depends_on:
-      - database
+      - postgres
 
 volumes:
   # Persisting data locally to ensure development continuity

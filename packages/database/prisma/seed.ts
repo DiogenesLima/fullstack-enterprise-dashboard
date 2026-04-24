@@ -13,6 +13,13 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log('🇬🇧 Starting professional seeding with Faker.js...');
 
+  const totalUsers = await prisma.user.count();
+
+  if (totalUsers > 0) {
+    console.log(`⚠️  Database already has ${totalUsers} users. Skipping seeding.`);
+    return;
+  }
+
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash('admin123', saltRounds);
 
