@@ -56,8 +56,11 @@ export class UsersService {
     return { items: users, total, pages: Math.ceil(total / limit), currentPage: page };
   }
 
-  async findOne(id: string) {
-    return this.prisma.user.findFirst({ where: { id } });
+  async findById(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: { id: true, email: true, role: true, created: true }
+    });
   }
 
   async remove(id: string) {

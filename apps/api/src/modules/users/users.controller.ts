@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Body, Param, Version, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, Version, UseGuards, Query, Req } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -37,6 +37,14 @@ export class UsersController {
     @Query('limit') limit: number = 10,
   ): Promise<UserPaginationResponse> {
     return this.usersService.findAll(search, Number(page), Number(limit));
+  }
+
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get current user details' })
+  @ApiResponse({ status: 200, description: 'User retrieved successfully.' })
+  async getMe(@Req() req) {
+    return this.usersService.findById(req.user.userId);
   }
 
   @Version('1')

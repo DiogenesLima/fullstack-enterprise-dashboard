@@ -42,8 +42,25 @@
       <!-- Top Bar -->
       <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-end px-8 sticky top-0 z-30">
         <div class="flex items-center gap-4">
-          <span class="text-sm text-slate-500">Welcome, **Senior Dev**</span>
-          <div class="h-8 w-8 rounded-full bg-slate-200 border border-slate-300"></div>
+          <NuxtLink to="/profile" class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-lg transition-colors group">
+            <div class="text-right hidden sm:block">
+              <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Account</p>
+              <p class="text-sm font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">
+                View Profile
+              </p>
+            </div>
+      
+            <div
+              class="h-9 w-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold border border-indigo-200">
+              {{ user?.email?.substring(0, 2).toUpperCase() || 'SD' }}
+            </div>
+          </NuxtLink>
+      
+          <div class="h-6 w-px bg-slate-200 mx-2"></div>
+      
+          <button class="p-2 text-slate-400 hover:text-slate-600 transition-colors">
+            <Icon name="heroicons:cog-6-tooth" class="w-5 h-5" />
+          </button>
         </div>
       </header>
 
