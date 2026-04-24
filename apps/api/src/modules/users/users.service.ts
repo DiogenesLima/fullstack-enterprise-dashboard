@@ -26,26 +26,34 @@ export class UsersService {
     });
   }
 
-  async findAll(search?: string) {
-    if (process.env.NODE_ENV === 'development') {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-    }
+  async findAll(search?: string, page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
 
-    return this.prisma.user.findMany({
-      where: search ? {
-            email: {
-              contains: search,
-              mode: 'insensitive',
-            },
-      } : {},
-      select: {
-        id: true,
-        email: true,
-        role: true,
-        created: true,
-      },
-      orderBy: { created: 'desc' },
-    });
+    const [items, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where: search
+          ? { email: { contains: search, mode: 'insensitive' } }
+          : {},
+        select: { id: true, email: true, role: true, created: true },
+        take: limit,
+        skip: skip,
+        orderBy: { created: 'desc' },
+      }),
+      this.prisma.user.count({
+        where: search
+          ? { email: { contains: search, mode: 'insensitive' } }
+          : {},
+      }),
+    ]);
+
+    const users = items.map((user) => ({
+      id: user.id,
+      email: user.email,
+      role: user.role as 'admin' | 'user',
+      created: user.created.toISOString(),
+    }));
+
+    return { items: users, total, pages: Math.ceil(total / limit), currentPage: page };
   }
 
   async findOne(id: string) {

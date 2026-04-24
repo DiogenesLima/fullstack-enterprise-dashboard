@@ -2,7 +2,7 @@ import { Controller, Get, Post, Delete, Body, Param, Version, UseGuards, Query }
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import type { UserResponse } from '@enterprise/api-contracts';
+import type { UserPaginationResponse } from '@enterprise/api-contracts';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 
 @ApiTags('Users')
@@ -26,16 +26,17 @@ export class UsersController {
   @Version('1')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'List all users' })
+  @ApiParam({ name: 'search', description: 'Search term for filtering users' })
+  @ApiParam({ name: 'page', description: 'The page number' })
+  @ApiParam({ name: 'limit', description: 'The number of users per page' })
   @ApiResponse({ status: 200, description: 'Users retrieved successfully.' })
   @Get()
-  async findAll(@Query('search') search?: string): Promise<UserResponse[]> {
-    const users = await this.usersService.findAll(search);
-    return users.map((user) => ({
-      id: user.id,
-      email: user.email,
-      role: user.role as 'admin' | 'user',
-      created: user.created.toISOString(),
-    }));
+  async findAll(
+    @Query('search') search?: string,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<UserPaginationResponse> {
+    return this.usersService.findAll(search, Number(page), Number(limit));
   }
 
   @Version('1')

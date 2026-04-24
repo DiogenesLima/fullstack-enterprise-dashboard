@@ -1,3 +1,11 @@
+// Shared interface for any paginated respoonse
+export interface PaginatedResponse<T> {
+  items: T[];
+  total: number;
+  pages: number;
+  currentPage: number;
+}
+
 // Shared interface for User data
 export interface UserResponse {
   id: string;
@@ -5,6 +13,9 @@ export interface UserResponse {
   role: 'admin' | 'user';
   created: string;
 }
+
+// Shared interface for User data with pagination
+export type UserPaginationResponse = PaginatedResponse<UserResponse>;
 
 // Shared interface for API error responses
 export interface ApiError {

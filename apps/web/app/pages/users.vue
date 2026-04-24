@@ -49,6 +49,10 @@
       <p v-if="errorMessage" class="mt-2 text-sm text-red-600">{{ errorMessage }}</p>
     </div>
 
+    <!-- Pagination -->
+    <AppPagination v-if="data?.items.length" :type="'users'" :current-page="page" :total-pages="data.pages" :total-items="data.total"
+      :loading="pending" @change="(newPage) => page = newPage" />
+
     <!-- User List Table -->
     <div class="bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden">
       <table :class="{ 'opacity-50': pending }" class="w-full text-left">
@@ -61,8 +65,8 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <template v-if="users?.length > 0">
-            <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50 transition">
+          <template v-if="data?.items.length > 0">
+            <tr v-for="user in data?.items" :key="user.id" class="hover:bg-gray-50 transition">
               <td class="px-6 py-4 text-sm text-gray-900">{{ user.email }}</td>
               <td class="px-6 py-4">
                 <span
@@ -118,6 +122,10 @@
       </table>
     </div>
 
+    <!-- Pagination -->
+    <AppPagination v-if="data?.items.length" :type="'users'" :current-page="page" :total-pages="data.pages"
+      :total-items="data.total" :loading="pending" @change="(newPage) => page = newPage" />
+
     <!-- Deletion Confirmation Modal -->
     <AppModal v-model="isModalOpen">
       <template #icon>
@@ -148,6 +156,7 @@
 
 <script setup lang="ts">
   const searchTerm = ref('')
+  const page = ref(1)
 
   const roleStyles = {
     admin: 'bg-indigo-100 text-indigo-700 border-indigo-200',
@@ -156,11 +165,13 @@
   
   const { addToast } = useToast()
   const { fetchUsers, createUser } = useUsers()
-  const { data: users, refresh, pending } = await fetchUsers(() => searchTerm.value)
+  
+  const { data, refresh, pending } = await fetchUsers(() => searchTerm.value, page)
 
   let debounceTimer: ReturnType<typeof setTimeout> | null = null
 
   watch(searchTerm, (newValue) => {
+    page.value = 1
     if (debounceTimer) clearTimeout(debounceTimer)
     debounceTimer = setTimeout(async () => {
       const result = await refresh()
