@@ -1,17 +1,19 @@
-import type { UserResponse, CreateUserDto, ActionResponse } from '@enterprise/api-contracts'
+import type { UserPaginationResponse, CreateUserDto, ActionResponse } from '@enterprise/api-contracts'
 
 export const useUsers = () => {
   const config = useRuntimeConfig()
   const apiBase = config.public.apiBase
 
   // List users
-  const fetchUsers = (search?: () => string) => {
-    return useFetch<UserResponse[]>('/users', {
+  const fetchUsers = (search?: () => string, page?: Ref<number>) => {
+    return useFetch<UserPaginationResponse>('/users', {
       baseURL: config.public.apiBase,
       query: computed(() => ({
-        search: search ? search() : undefined
+        search: search ? search() : undefined,
+        page: page?.value || 1,
+        limit: 10
       })),
-      watch: false
+      watch: [page]
     })
   }
 
