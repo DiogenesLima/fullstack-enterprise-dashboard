@@ -49,5 +49,8 @@ jobs:
       - name: Run Backend Tests
         run: pnpm --filter api test:cov
 
+      - name: Run Web Tests
+        run: pnpm --filter web test
+
       - name: Docker Build Check
         run: docker compose build --no-cache
