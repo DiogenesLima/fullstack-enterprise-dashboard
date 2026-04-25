@@ -46,5 +46,8 @@ jobs:
       - name: Build Monorepo
         run: pnpm build
 
+      - name: Run Backend Tests
+        run: pnpm --filter api test:cov
+
       - name: Docker Build Check
         run: docker compose build --no-cache
