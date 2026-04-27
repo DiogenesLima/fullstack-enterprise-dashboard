@@ -46,14 +46,6 @@ services:
     ports:
       - "3000:3000"
 
-  # Redis: Essential for caching, session management, and rate limiting
-  cache:
-    image: redis:7-alpine
-    container_name: enterprise_cache
-    restart: always
-    ports:
-      - "6379:6379"
-
   # Adminer: Lightweight database management tool
   # Provides an immediate UI for database inspection during development
   adminer:
