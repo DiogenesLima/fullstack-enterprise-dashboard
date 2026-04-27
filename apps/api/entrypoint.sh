@@ -11,4 +11,4 @@ echo "🌱 Running: prisma db seed..."
 pnpm --filter @enterprise/database db:seed
 
 echo "✅ Database is ready. Starting NestJS..."
-exec node apps/api/dist/main
+exec node apps/api/dist/src/main

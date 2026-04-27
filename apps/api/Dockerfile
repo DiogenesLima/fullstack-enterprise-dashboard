@@ -13,6 +13,6 @@ ENV NODE_ENV=production
 EXPOSE 3001
 
 COPY apps/api/entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh && sed -i 's/\r$//' ./entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
