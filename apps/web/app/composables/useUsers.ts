@@ -1,6 +1,7 @@
 import type { UserPaginationResponse, UserResponse, CreateUserDto, ActionResponse } from '@enterprise/api-contracts'
 
 export const useUsers = () => {
+  const { locale } = useI18n()
   const config = useRuntimeConfig()
   const apiBase = config.public.apiBase
 
@@ -11,7 +12,8 @@ export const useUsers = () => {
       query: computed(() => ({
         search: search ? search() : undefined,
         page: page?.value || 1,
-        limit: 10
+        limit: 10,
+        lang: locale.value
       })),
       watch: false
     })

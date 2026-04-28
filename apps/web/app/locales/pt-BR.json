@@ -1,0 +1,121 @@
+{
+  "title": "Enterprise",
+  "welcome": "Bem-vindo de volta",
+  "dashboard": "Visão Geral",
+  "users": "Gestão de Usuários",
+  "profile": "Meu Perfil",
+  "view_profile": "Ver Perfil",
+  "logout": "Sair",
+  "footer": "UK Market v1.0",
+  "pagination": {
+    "showing": "Exibindo página {current} de {total} ({count} {subject} no total)",
+    "previous": "Anterior",
+    "next": "Próximo"
+  },
+  "messages": {
+    "login_failed": "Falha no login",
+    "logout_success": "Sessão encerrada com sucesso. Até logo!"
+  },
+  "pages": {
+    "login": {
+      "title": "Portal Enterprise",
+      "subtitle": "Faça login para acessar seu painel",
+      "email_label": "E-mail Corporativo",
+      "email_placeholder": "Digite seu e-mail",
+      "password_label": "Senha",
+      "sign_in": "Entrar",
+      "messages": {
+        "login_success": "Bem-vindo de volta!",
+        "login_error": "Falha na autenticação"
+      }
+    },
+    "dashboard": {
+      "title": "Visão Geral do Sistema",
+      "stats": {
+        "total_users": "Total de Usuários",
+        "admins": "Administradores",
+        "latest_entry": "Último Registro",
+        "status_live": "Ao vivo",
+        "no_users": "Nenhum usuário"
+      },
+      "recent_signups": {
+        "title": "Cadastros Recentes",
+        "view_all": "Ver todos"
+      }
+    },
+    "users": {
+      "type": "usuários",
+      "title": "Gestão de Usuários",
+      "add_user": "Adicionar Usuário",
+      "close_form": "Fechar",
+      "search_placeholder": "Buscar por e-mail...",
+      "clear_search": "Limpar busca",
+      "no_users_found": "Nenhum usuário encontrado",
+      "confirm_deletion": {
+        "title": "Confirmação de Exclusão",
+        "message": "Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita e irá remover os dados de nossos servidores permanentemente.",
+        "confirm": "Excluir Usuário",
+        "cancel": "Cancelar"
+      },
+      "table": {
+        "email": "E-mail",
+        "role": "Cargo",
+        "created_at": "Criado em",
+        "actions": "Ações",
+        "delete": "Excluir"
+      },
+      "form": {
+        "email_label": "E-mail Corporativo",
+        "password_label": "Senha Inicial",
+        "role_label": "Cargo da Conta",
+        "email_placeholder": "uk-market.com",
+        "password_placeholder": "Mín. 8 caracteres",
+        "role_user": "Usuário",
+        "role_admin": "Administrador",
+        "submit": "Criar Usuário",
+        "submitting": "Criando...",
+        "cancel": "Cancelar"
+      },
+      "messages": {
+        "success_create": "Novo usuário registrado com sucesso",
+        "error_create": "Erro ao criar usuário",
+        "success_delete": "Usuário excluído com sucesso",
+        "error_delete": "Falha ao excluir usuário",
+        "no_results": "Nenhum usuário encontrado para \"{search}\""
+      }
+    },
+    "profile": {
+      "title": "Configurações da Conta",
+      "subtitle": "Gerencie suas informações pessoais e preferências de segurança.",
+      "labels": {
+        "email": "Endereço de E-mail",
+        "role": "Cargo na Conta",
+        "member_since": "Membro desde",
+        "status": "Status",
+        "active": "Ativo",
+        "unique_id": "Seu identificador único"
+      },
+      "security": {
+        "title": "Segurança & Privacidade",
+        "description": "As sessões autenticadas são gerenciadas via tokens JWT seguros com expiração de 1 hora, seguindo padrões de cibersegurança.",
+        "change_password": "Alterar Senha",
+        "enable_2fa": "Ativar 2FA"
+      },
+      "actions": {
+        "request_changes": "Solicitar Alterações",
+        "contact_admin": "Entre em contato com o administrador para alterar o e-mail"
+      },
+      "errors": {
+        "load_fail": "Falha ao carregar dados do perfil"
+      }
+    }
+  },
+  "charts": {
+    "user_distribution": "Distribuição de Usuários",
+    "labels": {
+      "admins": "Administradores",
+      "users": "Usuários Comuns"
+    }
+  },
+  "search_placeholder": "Buscar usuários..."
+}

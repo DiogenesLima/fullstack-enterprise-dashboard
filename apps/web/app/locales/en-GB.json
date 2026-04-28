@@ -1,0 +1,121 @@
+{
+  "title": "Enterprise",
+  "welcome": "Welcome back",
+  "dashboard": "Dashboard Overview",
+  "users": "User Management",
+  "profile": "My Profile",
+  "view_profile": "View Profile",
+  "logout": "Sign Out",
+  "footer": "UK Market v1.0",
+  "pagination": {
+    "showing": "Showing page {current} of {total} ({count} total {subject})",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "messages": {
+    "login_failed": "Login failed",
+    "logout_success": "Signed out successfully. See you soon!"
+  },
+  "pages": {
+    "login": {
+      "title": "Enterprise Portal",
+      "subtitle": "Sign in to access your dashboard",
+      "email_label": "Business Email",
+      "email_placeholder": "Enter your email",
+      "password_label": "Password",
+      "sign_in": "Sign In",
+      "messages": {
+        "login_success": "Welcome back!",
+        "login_error": "Authentication failed"
+      }
+    },
+    "dashboard": {
+      "title": "System Overview",
+      "stats": {
+        "total_users": "Total Users",
+        "admins": "Administrators",
+        "latest_entry": "Latest Entry",
+        "status_live": "Live",
+        "no_users": "No users yet"
+      },
+      "recent_signups": {
+        "title": "Recent Signups",
+        "view_all": "View all"
+      }
+    },
+    "users": {
+      "type": "users",
+      "title": "User Management",
+      "add_user": "Add New User",
+      "close_form": "Close",
+      "search_placeholder": "Search by email...",
+      "clear_search": "Clear search",
+      "no_users_found": "No users found",
+      "confirm_deletion": {
+        "title": "Confirm Deletion",
+        "message": "Are you sure you want to delete this user? This action cannot be undone and will permanently remove the data from our servers.",
+        "confirm": "Delete User",
+        "cancel": "Cancel"
+      },
+      "table": {
+        "email": "Email Address",
+        "role": "Role",
+        "created_at": "Created At",
+        "actions": "Actions",
+        "delete": "Delete"
+      },
+      "form": {
+        "email_label": "Business Email",
+        "password_label": "Initial Password",
+        "role_label": "Account Role",
+        "email_placeholder": "uk-market.com",
+        "password_placeholder": "Min. 8 characters",
+        "role_user": "User",
+        "role_admin": "Administrator",
+        "submit": "Save User",
+        "submitting": "Saving...",
+        "cancel": "Cancel"
+      },
+      "messages": {
+        "success_create": "New user registered successfully",
+        "error_create": "Error creating user",
+        "success_delete": "User deleted successfully",
+        "error_delete": "Failed to delete user",
+        "no_results": "No users found matching \"{search}\""
+      }
+    },
+    "profile": {
+      "title": "Account Settings",
+      "subtitle": "Manage your personal information and security preferences.",
+      "labels": {
+        "email": "Email Address",
+        "role": "Account Role",
+        "member_since": "Member Since",
+        "status": "Status",
+        "active": "Active",
+        "unique_id": "Your unique identifier"
+      },
+      "security": {
+        "title": "Security & Privacy",
+        "description": "Authenticated sessions are managed via secure JWT tokens with 1-hour expiration, following cybersecurity standards.",
+        "change_password": "Change Password",
+        "enable_2fa": "Enable 2FA"
+      },
+      "actions": {
+        "request_changes": "Request Changes",
+        "contact_admin": "Contact your admin to change email"
+      },
+      "errors": {
+        "load_fail": "Failed to load profile data"
+      }
+    }
+  },
+  "charts": {
+    "user_distribution": "User Distribution",
+    "labels": {
+      "admins": "Administrators",
+      "users": "Regular Users"
+    }
+  },
+  "search_placeholder": "Search users..."
+}

@@ -1,0 +1,121 @@
+{
+  "title": "Enterprise",
+  "welcome": "Bienvenido de nuevo",
+  "dashboard": "Vista General",
+  "users": "Gestión de Usuarios",
+  "profile": "Mi Perfil",
+  "view_profile": "Ver Perfil",
+  "logout": "Cerrar Sesión",
+  "footer": "Mercado UK v1.0",
+  "pagination": {
+    "showing": "Mostrando página {current} de {total} ({count} {subject} en total)",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "messages": {
+    "login_failed": "Error de inicio de sesión",
+    "logout_success": "Sesión cerrada con éxito. ¡Hasta pronto!"
+  },
+  "pages": {
+    "login": {
+      "title": "Portal Enterprise",
+      "subtitle": "Inicie sesión para acceder a su panel",
+      "email_label": "Email Corporativo",
+      "email_placeholder": "Digite su e-mail",
+      "password_label": "Contraseña",
+      "sign_in": "Iniciar Sesión",
+      "messages": {
+        "login_success": "¡Bienvenido de nuevo!",
+        "login_error": "Error de autenticación"
+      }
+    },
+    "dashboard": {
+      "title": "Vista General",
+      "stats": {
+        "total_users": "Total de Usuarios",
+        "admins": "Administradores",
+        "latest_entry": "Último Registro",
+        "status_live": "En Vivo",
+        "no_users": "Sin usuarios aún"
+      },
+      "recent_signups": {
+        "title": "Registros Recientes",
+        "view_all": "Ver todos"
+      }
+    },
+    "users": {
+      "type": "usuarios",
+      "title": "Gestión de Usuarios",
+      "add_user": "Añadir Nuevo Usuario",
+      "close_form": "Cerrar",
+      "search_placeholder": "Buscar por email...",
+      "clear_search": "Limpiar búsqueda",
+      "no_users_found": "No se encontraron usuarios",
+      "confirm_deletion": {
+        "title": "Confirmar Eliminación",
+        "message": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer y eliminará permanentemente los datos de nuestros servidores.",
+        "confirm": "Eliminar Usuario",
+        "cancel": "Cancelar"
+      },
+      "table": {
+        "email": "Correo Electrónico",
+        "role": "Rol",
+        "created_at": "Creado el",
+        "actions": "Acciones",
+        "delete": "Eliminar"
+      },
+      "form": {
+        "email_label": "Email Corporativo",
+        "password_label": "Contraseña Inicial",
+        "role_label": "Rol de la Cuenta",
+        "email_placeholder": "mercado-uk.com",
+        "password_placeholder": "Mín. 8 caracteres",
+        "role_user": "Usuario",
+        "role_admin": "Administrador",
+        "submit": "Guardar Usuario",
+        "submitting": "Guardando...",
+        "cancel": "Cancelar"
+      },
+      "messages": {
+        "success_create": "Nuevo usuario registrado con éxito",
+        "error_create": "Error al crear el usuario",
+        "success_delete": "Usuario eliminado con éxito",
+        "error_delete": "Error al eliminar el usuario",
+        "no_results": "No se encontraron usuarios que coincidan con \"{search}\""
+      }
+    },
+    "profile": {
+      "title": "Configuración de la Cuenta",
+      "subtitle": "Administre su información personal y preferencias de seguridad.",
+      "labels": {
+        "email": "Correo Electrónico",
+        "role": "Rol de la Cuenta",
+        "member_since": "Miembro desde",
+        "status": "Estado",
+        "active": "Activo",
+        "unique_id": "Su identificador único"
+      },
+      "security": {
+        "title": "Seguridad y Privacidad",
+        "description": "Las sesiones autenticadas se gestionan mediante tokens JWT seguros con caducidad de 1 hora, siguiendo los estándares de ciberseguridad.",
+        "change_password": "Cambiar Contraseña",
+        "enable_2fa": "Activar 2FA"
+      },
+      "actions": {
+        "request_changes": "Solicitar Cambios",
+        "contact_admin": "Contacte con su administrador para cambiar el email"
+      },
+      "errors": {
+        "load_fail": "Error al cargar los datos del perfil"
+      }
+    }
+  },
+  "charts": {
+    "user_distribution": "Distribución de Usuarios",
+    "labels": {
+      "admins": "Administradores",
+      "users": "Usuarios Regulares"
+    }
+  },
+  "search_placeholder": "Buscar usuarios..."
+}

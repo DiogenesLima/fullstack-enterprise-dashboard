@@ -7,13 +7,16 @@ describe('Login Page', () => {
   it('renders login form correctly', async () => {
     const page = await mountSuspended(Login)
     
+    expect(page.find('select').exists()).toBe(true)
+    expect(page.find('select').findAll('option').length).toBeGreaterThan(1)
+
     expect(page.find('h1').text()).toContain('Enterprise Portal')
     expect(page.find('input[type="email"]').exists()).toBe(true)
     expect(page.find('input[type="password"]').exists()).toBe(true)
     expect(page.find('button').text()).toContain('Sign In')
   })
 
-  it('shows error message on failed login', async () => {
+  it('shows localized error message on failed login', async () => {
     // Register a fake endpoint that returns 401 error
     registerEndpoint('http://localhost:3001/api/v1/auth/login', {
       method: 'POST',
@@ -39,7 +42,6 @@ describe('Login Page', () => {
     const errorMsg = page.find('[class*="text-red-600"]')
 
     expect(errorMsg.exists()).toBe(true)
-
     expect(errorMsg.text()).toContain('Login failed')
   })
 })

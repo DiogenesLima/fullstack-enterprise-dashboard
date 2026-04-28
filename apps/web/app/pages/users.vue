@@ -1,17 +1,17 @@
 <template>
   <div class="max-w-4xl mx-auto py-10 px-4">
     <header class="flex justify-between items-center mb-8">
-      <h1 class="text-2xl font-bold text-gray-800">User Management</h1>
+      <h1 class="text-2xl font-bold text-gray-800">{{ $t('pages.users.title') }}</h1>
       <button @click="showForm = !showForm"
         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-        {{ showForm ? 'Close' : 'Add New User' }}
+        {{ showForm ? $t('pages.users.close_form') : $t('pages.users.add_user') }}
       </button>
 
       <!-- Search Bar -->
       <div class="relative w-64">
         <Icon :name="pending ? 'heroicons:arrow-path' : 'heroicons:magnifying-glass'"
           :class="['absolute left-3 top-2.5 w-5 h-5', pending ? 'text-indigo-600 animate-spin' : 'text-slate-400']" />
-        <input v-model="searchTerm" type="text" placeholder="Search by email..."
+        <input v-model="searchTerm" type="text" :placeholder="$t('pages.users.search_placeholder')"
           class="pl-10 pr-4 py-2 w-full rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" />
       </div>
     </header>
@@ -21,36 +21,36 @@
       <form @submit.prevent="handleCreate" class="flex gap-4 items-end">
         <!-- Email -->
         <div class="flex-1">
-          <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-          <input v-model="form.email" type="email" required placeholder="example@uk-market.com"
+          <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('pages.users.form.email_label') }}</label>
+          <input v-model="form.email" type="email" required :placeholder="$t('pages.users.form.email_placeholder')"
             class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none" />
         </div>
         <!-- Password -->
         <div class="flex-1 w-full">
-          <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('pages.users.form.password_label') }}</label>
           <input v-model="form.password" type="password" required
             class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none"
-            placeholder="Min. 8 characters" />
+            :placeholder="$t('pages.users.form.password_placeholder')" />
         </div>
         <!-- Role -->
         <div class="w-full lg:w-40">
-          <label class="block text-sm font-medium text-slate-700 mb-1">Role</label>
+          <label class="block text-sm font-medium text-slate-700 mb-1">{{ $t('pages.users.form.role_label') }}</label>
           <select v-model="form.role"
             class="w-full px-4 py-2 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-indigo-500 outline-none appearance-none">
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
+            <option value="user">{{ $t('pages.users.form.role_user') }}</option>
+            <option value="admin">{{ $t('pages.users.form.role_admin') }}</option>
           </select>
         </div>
         <button type="submit" :disabled="loading"
           class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 disabled:opacity-50">
-          {{ loading ? 'Saving...' : 'Save User' }}
+          {{ loading ? $t('pages.users.form.submitting') : $t('pages.users.form.submit') }}
         </button>
       </form>
       <p v-if="errorMessage" class="mt-2 text-sm text-red-600">{{ errorMessage }}</p>
     </div>
 
     <!-- Pagination -->
-    <AppPagination v-if="data?.items.length" :type="'users'" :current-page="page" :total-pages="data.pages" :total-items="data.total"
+    <AppPagination v-if="data?.items.length" :type="$t('pages.users.type')" :current-page="page" :total-pages="data.pages" :total-items="data.total"
       :loading="pending" @change="(newPage) => page = newPage" />
 
     <!-- User List Table -->
@@ -58,10 +58,10 @@
       <table :class="{ 'opacity-50': pending }" class="w-full text-left">
         <thead class="bg-gray-50 border-b border-gray-200">
           <tr>
-            <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
-            <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Role</th>
-            <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Created At</th>
-            <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Actions</th>
+            <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{{ $t('pages.users.table.email') }}</th>
+            <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{{ $t('pages.users.table.role') }}</th>
+            <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{{ $t('pages.users.table.created_at') }}</th>
+            <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">{{ $t('pages.users.table.actions') }}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
@@ -76,12 +76,12 @@
                 </span>
               </td>
               <td class="px-6 py-4 text-sm text-gray-500">
-                {{ new Date(user.created).toLocaleDateString('en-GB') }}
+                {{ formatDate(user.created) }}
               </td>
               <td class="px-6 py-4 text-sm">
                 <AppButton variant="danger" class="text-red-600 hover:text-red-800" :loading="isDeleting === user.id"
                   @click="openDeleteModal(user.id)">
-                  Delete
+                  {{ $t('pages.users.table.delete') }}
                 </AppButton>
               </td>
             </tr>
@@ -92,12 +92,12 @@
                 <div class="p-3 bg-slate-100 rounded-full mb-4">
                   <Icon name="heroicons:magnifying-glass" class="w-8 h-8 text-slate-400" />
                 </div>
-                <h3 class="text-sm font-semibold text-slate-900">No users found</h3>
+                <h3 class="text-sm font-semibold text-slate-900">{{ $t('pages.users.no_users_found') }}</h3>
                 <p class="text-sm text-slate-500 mt-1">
-                  We couldn't find any users matching "{{ searchTerm }}".
+                  {{ $t('pages.users.messages.no_results', { search: searchTerm }) }}
                 </p>
                 <AppButton variant="ghost" class="mt-4 text-indigo-600" @click="searchTerm = ''">
-                  Clear search
+                  {{ $t('pages.users.clear_search') }}
                 </AppButton>
               </div>
             </td>
@@ -123,7 +123,7 @@
     </div>
 
     <!-- Pagination -->
-    <AppPagination v-if="data?.items.length" :type="'users'" :current-page="page" :total-pages="data.pages"
+    <AppPagination v-if="data?.items.length" :type="$t('pages.users.type')" :current-page="page" :total-pages="data.pages"
       :total-items="data.total" :loading="pending" @change="(newPage) => page = newPage" />
 
     <!-- Deletion Confirmation Modal -->
@@ -135,19 +135,18 @@
         </div>
       </template>
     
-      <template #title>Confirm Deletion</template>
+      <template #title>{{ t('pages.users.confirm_deletion.title') }}</template>
     
       <template #description>
-        Are you sure you want to delete this user? This action cannot be undone and will permanently remove the data from
-        our servers.
+        {{ t('pages.users.confirm_deletion.message') }}
       </template>
     
       <template #actions>
         <AppButton variant="danger" :loading="isDeleting === userIdToDelete" @click="confirmDelete">
-          Delete User
+          {{ t('pages.users.confirm_deletion.confirm') }}
         </AppButton>
         <AppButton variant="ghost" @click="isModalOpen = false">
-          Cancel
+          {{ t('pages.users.confirm_deletion.cancel') }}
         </AppButton>
       </template>
     </AppModal>
@@ -155,8 +154,12 @@
 </template>
 
 <script setup lang="ts">
-  const searchTerm = ref('')
-  const page = ref(1)
+  const { t, locale } = useI18n()
+  const { formatDate } = useFormatters()
+  const route = useRoute()
+  const router = useRouter()
+
+  useHead({ title: `${t('pages.users.title')} | ${t('title')}` })
 
   const roleStyles = {
     admin: 'bg-indigo-100 text-indigo-700 border-indigo-200',
@@ -166,6 +169,9 @@
   const { addToast } = useToast()
   const { fetchUsers, createUser } = useUsers()
   
+  const searchTerm = ref(route.query.search?.toString() || '')
+  const page = ref(Number(route.query.page) || 1)
+
   const { data, refresh, pending } = await fetchUsers(() => searchTerm.value, page)
 
   let debounceTimer: ReturnType<typeof setTimeout> | null = null
@@ -174,12 +180,23 @@
     if (debounceTimer) clearTimeout(debounceTimer)
     debounceTimer = setTimeout(async () => {
       page.value = 1
+      router.push({
+        query: { ...route.query, search: newValue || undefined, page: page.value }
+      })
       const result = await refresh()
     }, 1000) // 300ms delay for debouncing
   })
 
   watch(page, (newValue) => {
     const result = refresh()
+  })
+
+  watch(locale, () => {
+    refresh()
+  })
+
+  watch(() => route.query.search, (newSearch) => {
+    searchTerm.value = newSearch?.toString() || ''
   })
 
   const showForm = ref(false)
@@ -200,10 +217,10 @@
       form.password = ''
       form.role = 'user'
       showForm.value = false
-      addToast('User created successfully!', 'success')
+      addToast(t('pages.users.messages.success_create'), 'success')
       await refresh()
     } catch (e: any) {
-      addToast(e.data?.message || 'Error creating user', 'error')
+      addToast(e.data?.message || t('pages.users.messages.error_create'), 'error')
     } finally {
       loading.value = false
     }
@@ -227,13 +244,13 @@
     try {
       const { deleteUser } = useUsers()
       await deleteUser(id)
-      addToast('User deleted forever.', 'success')
+      addToast(t('pages.users.messages.success_delete'), 'success')
 
       await refresh()
       isModalOpen.value = false
 
     } catch (e: any) {
-      const message = e.data?.message || 'Failed to delete user'
+      const message = e.data?.message || t('pages.users.messages.error_delete')
       addToast(message, 'error')
       console.error('Delete error:', e)
     } finally {

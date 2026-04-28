@@ -16,6 +16,7 @@ A professional showcase of a high-performance distributed system architecture. T
 - **Type Safety:** Shared API Contracts (`@enterprise/api-contracts`) providing End-to-End type safety between Backend and Frontend.
 - **Security:** JWT Authentication, Bcrypt hashing, and Rate Limiting (Throttler).
 - **Quality Assurance:** [Vitest](https://vitest.dev/) for Unit/Component testing & [Swagger](https://swagger.io/) for OpenAPI docs.
+- **Internationalization:** @nuxtjs/i18n with Lazy-loading and SEO-friendly prefix strategy
 - **Observability:** Structured JSON Logging with [Pino](https://getpino.io).
 - **Infrastructure:** Dockerised environment (PostgreSQL, Adminer) for seamless onboarding.
 
@@ -28,6 +29,10 @@ A professional showcase of a high-performance distributed system architecture. T
 - **Resilient API:** Global ValidationPipes, ThrottlerGuards for brute-force protection, and Multi-stage Docker builds.
 - **CI/CD Pipeline:** Automated GitHub Actions for Build, Lint, and Test (Backend & Frontend) with pnpm caching.
 - **Environment Robustness:** Centralised `.env` management with variable expansion (DRY principle) and Turborepo injection.
+- **Dynamic Multi-language Support:** Full localization (en-GB, pt-BR, es-ES) with real-time switching for UI, charts (Chart.js), and data formatting.
+- **Stateful Navigation:** Search terms and pagination states are persisted across language changes using URL query synchronization.
+- **Locale-Aware Middleware:** Automated redirection and authentication flows that respect the user's preferred language, even after session termination (logout).
+- **Intl API Integration:** Native browser Intl API usage for performant and accurate date/currency formatting based on the active locale.
 
 ## 📁 Project Structure
 
@@ -61,6 +66,8 @@ Backend Docs: http://localhost:3001/docs
 > - **User:** `admin@enterprise.uk`
 > - **Password:** `admin123`
 
+> [!TIP]
+> The system is fully localized. You can switch languages directly on the Login Page or via the Dashboard Header to see the reactive UI transformation.
 
 ### 🛠 Setup & Running for Dev
 

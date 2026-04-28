@@ -1,8 +1,8 @@
 <template>
   <div class="max-w-4xl mx-auto">
     <div class="mb-8">
-      <h1 class="text-2xl font-bold text-slate-900">Account Settings</h1>
-      <p class="text-slate-500">Manage your personal information and security preferences.</p>
+      <h1 class="text-2xl font-bold text-slate-900">{{ t('pages.profile.title') }}</h1>
+      <p class="text-slate-500">{{ t('pages.profile.subtitle') }}</p>
     </div>
 
     <!-- Profile Card -->
@@ -21,31 +21,27 @@
           <div class="flex-1 space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Email
-                  Address</label>
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{{ t('pages.profile.labels.email') }}</label>
                 <p class="text-slate-900 font-medium">{{ user?.email }}</p>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Account
-                  Role</label>
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{{ t('pages.profile.labels.role') }}</label>
                 <span
                   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
                   {{ user?.role }}
                 </span>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Member
-                  Since</label>
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{{ t('pages.profile.labels.member_since') }}</label>
                 <p class="text-slate-900 font-medium">
-                  {{ user ? new Date(user.created).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year:
-                  'numeric' }) : '...' }}
+                  {{ user ? formatDate(user.created) : '...' }}
                 </p>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Status</label>
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{{ t('pages.profile.labels.status') }}</label>
                 <div class="flex items-center gap-1.5 text-emerald-600 font-medium">
                   <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                  Active
+                  {{ t('pages.profile.labels.active') }}
                 </div>
               </div>
             </div>
@@ -56,10 +52,10 @@
       <!-- Footer Info -->
       <div class="bg-slate-50 px-8 py-4 border-t border-slate-200 flex justify-between items-center">
         <p class="text-xs text-slate-500">
-          Your unique identifier: <span class="font-mono">{{ user?.id }}</span>
+          {{ t('pages.profile.labels.unique_id') }}: <span class="font-mono">{{ user?.id }}</span>
         </p>
-        <AppButton variant="ghost" class="text-xs" @click="addToast('Contact your admin to change email', 'info')">
-          Request Changes
+        <AppButton variant="ghost" class="text-xs" @click="addToast(t('pages.profile.actions.contact_admin'), 'info')">
+          {{ t('pages.profile.actions.request_changes') }}
         </AppButton>
       </div>
     </div>
@@ -70,15 +66,14 @@
         <div class="p-2 bg-slate-100 rounded-lg text-slate-600">
           <Icon name="heroicons:shield-check" class="w-6 h-6" />
         </div>
-        <h2 class="text-lg font-bold text-slate-900">Security & Privacy</h2>
+        <h2 class="text-lg font-bold text-slate-900">{{ t('pages.profile.security.title') }}</h2>
       </div>
       <p class="text-sm text-slate-600 mb-6">
-        Authenticated sessions are managed via secure JWT tokens with 1-hour expiration, following UK cybersecurity
-        standards.
+        {{ t('pages.profile.security.description') }}
       </p>
       <div class="flex gap-4">
-        <AppButton variant="primary" disabled>Change Password</AppButton>
-        <AppButton variant="ghost" disabled>Enable 2FA</AppButton>
+        <AppButton variant="primary" disabled>{{ t('pages.profile.security.change_password') }}</AppButton>
+        <AppButton variant="ghost" disabled>{{ t('pages.profile.security.enable_2fa') }}</AppButton>
       </div>
     </div>
   </div>
@@ -87,10 +82,14 @@
 <script setup lang="ts">
   const { getMe } = useUsers()
   const { addToast } = useToast()
+  const { t } = useI18n()
+  const { formatDate } = useFormatters()
+  
+  useHead({ title: `${t('pages.profile.title')} | ${t('title')}` })
 
   const { data: user, pending, error } = await getMe()
 
   if (error.value) {
-    addToast('Failed to load profile data', 'error')
+    addToast(t('pages.profile.errors.load_fail'), 'error')
   }
 </script>
