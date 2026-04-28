@@ -5,6 +5,7 @@ export const useAuth = () => {
   const user = useState<AuthResponse['user'] | null>('auth_user', () => null)
   const config = useRuntimeConfig()
   const localePath = useLocalePath()
+  const { $i18n } = useNuxtApp()
 
   const login = async (credentials: LoginDto) => {
     try {
@@ -19,7 +20,7 @@ export const useAuth = () => {
 
       return navigateTo(localePath('/dashboard'))
     } catch (e: any) {
-      throw e.data?.message || t('messages.login_failed')
+      throw e.data?.message || $i18n.t('messages.login_failed')
     }
   }
 
