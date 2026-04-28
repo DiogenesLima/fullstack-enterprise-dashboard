@@ -7,7 +7,8 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
-    '@nuxt/icon'
+    '@nuxt/icon',
+    '@nuxtjs/i18n'
   ],
 
   icon: {
@@ -20,6 +21,21 @@ export default defineNuxtConfig({
     exposeConfig: true,
     viewer: true,
   },
+
+  i18n: {
+    locales: [
+      { code: 'en', iso: 'en-GB', file: 'en-GB.json', name: 'English' },
+      { code: 'pt', iso: 'pt-BR', file: 'pt-BR.json', name: 'Português' },
+      { code: 'es', iso: 'es-ES', file: 'es-ES.json', name: 'Español' }
+    ],
+    lazy: true,
+    langDir: '../app/locales/',
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    skipSettingLocaleOnNavigate: false,
+    detectBrowserLanguage: false, 
+  },
+
   build: {
     transpile: ['@enterprise/api-contracts']
   },

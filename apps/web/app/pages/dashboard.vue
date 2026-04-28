@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-2xl font-bold text-slate-900 mb-8">System Overview</h1>
+    <h1 class="text-2xl font-bold text-slate-900 mb-8">{{ t('pages.dashboard.title') }}</h1>
 
     <div v-if="pending" class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-pulse">
       <div v-for="i in 3" :key="i" class="h-32 bg-slate-200 rounded-xl"></div>
@@ -13,9 +13,9 @@
           <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600">
             <Icon name="heroicons:users" class="w-6 h-6" />
           </div>
-          <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">Live</span>
+          <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">{{ t('pages.dashboard.stats.status_live') }}</span>
         </div>
-        <p class="text-sm font-medium text-slate-500">Total Users</p>
+        <p class="text-sm font-medium text-slate-500">{{ t('pages.dashboard.stats.total_users') }}</p>
         <h3 class="text-3xl font-bold text-slate-900">{{ data?.totalUsers }}</h3>
       </div>
 
@@ -26,7 +26,7 @@
             <Icon name="heroicons:shield-check" class="w-6 h-6" />
           </div>
         </div>
-        <p class="text-sm font-medium text-slate-500">Administrators</p>
+        <p class="text-sm font-medium text-slate-500">{{ t('pages.dashboard.stats.admins') }}</p>
         <h3 class="text-3xl font-bold text-slate-900">{{ data?.totalAdmins }}</h3>
       </div>
 
@@ -37,7 +37,7 @@
             <Icon name="heroicons:bolt" class="w-6 h-6" />
           </div>
         </div>
-        <p class="text-sm font-medium text-slate-500">Latest Entry</p>
+        <p class="text-sm font-medium text-slate-500">{{ t('pages.dashboard.stats.latest_entry') }}</p>
         <h3 class="text-lg font-bold text-slate-900 truncate" :title="data?.lastSignup">
           {{ data?.lastSignup }}
         </h3>
@@ -49,8 +49,8 @@
     
       <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center">
-          <h3 class="font-bold text-slate-800">Recent Signups</h3>
-          <NuxtLink to="/users" class="text-sm text-indigo-600 hover:underline">View all</NuxtLink>
+          <h3 class="font-bold text-slate-800">{{ t('pages.dashboard.recent_signups.title') }}</h3>
+          <NuxtLink :to="localePath('/users')" class="text-sm text-indigo-600 hover:underline">{{ t('pages.dashboard.recent_signups.view_all') }}</NuxtLink>
         </div>
       
         <div class="overflow-x-auto">
@@ -67,7 +67,7 @@
                   </div>
                 </td>
                 <td class="px-6 py-4 text-xs text-slate-400">
-                  {{ new Date(user.created).toLocaleDateString('en-GB') }}
+                  {{ formatDate(user.created) }}
                 </td>
                 <td class="px-6 py-4 text-right">
                   <span
@@ -88,6 +88,11 @@
 <script setup lang="ts">
   const { token } = useAuth()
   const config = useRuntimeConfig()
+  const { t } = useI18n()
+  const { formatDate } = useFormatters()
+  const localePath = useLocalePath()
+
+  useHead({ title: `${t('pages.dashboard.title')} | ${t('title')}` })
 
   const { data, pending } = await useFetch < any > ('/analytics/overview', {
     baseURL: config.public.apiBase,
