@@ -171,11 +171,15 @@
   let debounceTimer: ReturnType<typeof setTimeout> | null = null
 
   watch(searchTerm, (newValue) => {
-    page.value = 1
     if (debounceTimer) clearTimeout(debounceTimer)
     debounceTimer = setTimeout(async () => {
+      page.value = 1
       const result = await refresh()
-    }, 300) // 300ms delay for debouncing
+    }, 1000) // 300ms delay for debouncing
+  })
+
+  watch(page, (newValue) => {
+    const result = refresh()
   })
 
   const showForm = ref(false)

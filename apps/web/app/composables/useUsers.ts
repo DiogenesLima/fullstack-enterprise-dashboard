@@ -13,7 +13,7 @@ export const useUsers = () => {
         page: page?.value || 1,
         limit: 10
       })),
-      watch: [page]
+      watch: false
     })
   }
 
