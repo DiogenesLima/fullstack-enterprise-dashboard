@@ -1,18 +1,28 @@
-# Fullstack Enterprise Dashboard 🇬🇧
+# Scalable Backend Platform with Integrated Frontend Dashboard (NestJS, Prisma, Nuxt, Monorepo Architecture)
 
-A professional showcase of a high-performance distributed system architecture. This project demonstrates engineering experience, built along 25 years, translated into modern web standards, focusing on scalability, type safety, and professional DX (Developer Experience).
+A modern backend platform designed to demonstrate scalable architecture, API design, and real-world system integration.
+
+Built with production-level engineering practices, including authentication, data consistency, end-to-end type safety, and monorepo-based development.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b39f15b9-7017-4745-85b9-72d152398bf8" alt="Enterprise Dashboard" width="800">
+  <img src="https://github.com/user-attachments/assets/c92ccf15-ce3d-4f5a-9892-a231e21b91f1" alt="Enterprise Dashboard" width="800">
 </p>
 
+## 🚀 System Design Overview
+This project simulates a real-world backend platform designed to handle typical operational challenges such as:
+- API-driven workflows
+- Data consistency across services
+- Authentication and authorization
+- Scalable data access patterns
+
+It follows modular architecture principles and is structured for maintainability and future extensibility.
 
 ## 🏗 High-Level Tech Stack
 
 - **Monorepo Management:** [Turborepo](https://turbo.build) + [pnpm](https://pnpm.io) Workspaces for efficient build orchestration.
 - **Frontend:** [Nuxt 4](https://nuxt.com) leveraging SSR, Nitro server, modular layers, reactive getter patterns and composables.
 - **Backend:** [NestJS](https://nestjs.com) with a modular architecture and versioned API.
-- **Database & ORM:** [Prisma 7](https://prisma.io) with PostgreSQL (Optimized queries with skip/take and Promise.all aggregation), featuring a shared database package architecture.
+- **Database & ORM:** [Prisma 7](https://prisma.io) with PostgreSQL, using optimized query patterns and a shared database package architecture
 - **Type Safety:** Shared API Contracts (`@enterprise/api-contracts`) providing End-to-End type safety between Backend and Frontend.
 - **Security:** JWT Authentication, Bcrypt hashing, and Rate Limiting (Throttler).
 - **Quality Assurance:** [Vitest](https://vitest.dev/) for Unit/Component testing & [Swagger](https://swagger.io/) for OpenAPI docs.
@@ -20,11 +30,11 @@ A professional showcase of a high-performance distributed system architecture. T
 - **Observability:** Structured JSON Logging with [Pino](https://getpino.io).
 - **Infrastructure:** Dockerised environment (PostgreSQL, Adminer) for seamless onboarding.
 
-## 🎯 Advanced Engineering Features
+## 🎯 Engineering Highlights
 
 - **End-to-End Type Safety:** Shared @enterprise/api-contracts package ensuring zero-drift between Backend and Frontend.
 - **Shared Database Layer:** The database logic is encapsulated in a dedicated internal package, allowing for better reusability and isolation.
-- **Clean Architecture UI:** Reusable stateless components, Skeleton loaders, and Debounced Search for optimal UX.
+- **Frontend Architecture** Reusable stateless components, Skeleton loaders, and Debounced Search for optimal UX.
 - **Automated Database Lifecycle:** Docker entrypoint.sh handles schema sync (db:push) and Faker.js seeding automatically on startup.
 - **Resilient API:** Global ValidationPipes, ThrottlerGuards for brute-force protection, and Multi-stage Docker builds.
 - **CI/CD Pipeline:** Automated GitHub Actions for Build, Lint, and Test (Backend & Frontend) with pnpm caching.
@@ -99,4 +109,4 @@ Backend Docs: http://localhost:3001/docs
   pnpm dev
   ```
 
-Developed with a focus on UK Tech Market standards for code quality and software engineering.
+Designed to reflect modern software engineering practices commonly used in production environments.
